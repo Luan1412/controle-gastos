@@ -22,6 +22,7 @@ public class SecurityConfig {
         .headers(headers -> headers.frameOptions().disable())
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST,"/usuarios").permitAll()
+            .requestMatchers(HttpMethod.POST, "/login").permitAll()
             .requestMatchers("/h2-console/**").permitAll()
             .anyRequest().authenticated()
             )
