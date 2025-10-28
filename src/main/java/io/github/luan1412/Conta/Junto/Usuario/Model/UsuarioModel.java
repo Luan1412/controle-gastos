@@ -2,25 +2,33 @@ package io.github.luan1412.Conta.Junto.Usuario.Model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import io.github.luan1412.Conta.Junto.Grupo.Model.GrupoModel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode; 
+import lombok.ToString;
+
 
 @Entity
 @Table(name = "tb_usuario")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "grupos")
+@ToString(exclude = "grupos")
 
 public class UsuarioModel implements UserDetails{
 
@@ -30,6 +38,9 @@ public class UsuarioModel implements UserDetails{
     private String nome;
     private String email;
     private String senha;
+
+    @ManyToMany(mappedBy = "usuarios")
+    Set<GrupoModel> grupos;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
