@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumns;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -35,8 +35,8 @@ public class GrupoModel {
     @ManyToMany
     @JoinTable(
         name = "tb_grupo_usuario",
-        joinColumns = @JoinColumns(name = "grupo_id"),
-        inverseJoinColumns = @JoinColumns(name = "usuario_id")
+        joinColumns = @JoinColumn(name = "grupo_id"),
+        inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
     private Set<UsuarioModel> usuarios;
 }
