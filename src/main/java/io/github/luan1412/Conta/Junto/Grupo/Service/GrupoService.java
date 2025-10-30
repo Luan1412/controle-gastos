@@ -1,9 +1,12 @@
 package io.github.luan1412.Conta.Junto.Grupo.Service;
 
 import io.github.luan1412.Conta.Junto.Grupo.Repository.GrupoRepository;
+import io.github.luan1412.Conta.Junto.Usuario.Model.UsuarioModel;
+import io.github.luan1412.Conta.Junto.Usuario.Repository.UsuarioRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,8 @@ public class GrupoService {
 
     @Autowired
     GrupoRepository grupoRepository;
+    @Autowired  
+    UsuarioRepository usuarioRepository;
 
 
     public GrupoModel createGrupo(GrupoModel grupoModel){
@@ -47,6 +52,28 @@ public class GrupoService {
         }else{
             return false;
         }
+    }
+
+    public Optional<GrupoModel> adicionarUsuarioAoGrupo(Long grupoId, Long usuarioId){
+
+        Optional<GrupoModel> grupoOptinal = this.grupoRepository.findById(grupoId);
+        Optional<UsuarioModel> usuarioOptional = this.usuarioRepository.findById(usuarioId);
+
+        if (grupoOptinal.isPresent() && usuarioOptional.isPresent()) {
+            
+            GrupoModel grupo = grupoOptinal.get();
+            UsuarioModel usuario = usuarioOptional.get();
+
+            grupo.getUsuarios().add(usuario);
+
+            this.grupoRepository.save(grupo);
+
+            return Optional.of(grupo);
+        }
+        return Optional.empty();
+        
+
+
     }
     
 }

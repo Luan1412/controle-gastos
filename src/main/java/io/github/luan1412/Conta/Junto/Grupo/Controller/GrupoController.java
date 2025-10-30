@@ -66,6 +66,19 @@ public class GrupoController {
         }else{
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/{grupoId}/adicionarUsuario/{usuarioId}")
+    public ResponseEntity<GrupoModel> adicionarUsuarioAoGrupo(@PathVariable Long grupoId,@PathVariable Long usuarioId){
+
+        Optional<GrupoModel> grupoOptional = this.grupoService.adicionarUsuarioAoGrupo(grupoId, usuarioId);
+
+        if (grupoOptional.isPresent()) {
+            return ResponseEntity.ok(grupoOptional.get());
+        }else{
+            return ResponseEntity.notFound().build();
+        }
 
     }
+
 }
