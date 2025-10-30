@@ -3,7 +3,7 @@ package io.github.luan1412.Conta.Junto.Gasto.Model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import io.github.luan1412.Conta.Junto.Usuario.Model.UsuarioModel;
+import io.github.luan1412.Conta.Junto.Grupo.Model.GrupoModel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,7 +31,7 @@ public class GastoModel {
     private LocalDate data;
     
     @ManyToOne
-    @JoinColumn(name= "usuario_id")
-    private UsuarioModel usuario;
+    @JoinColumn(name= "grupo_id")
+    private GrupoModel grupo;
 
 }
