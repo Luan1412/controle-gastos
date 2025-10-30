@@ -3,6 +3,8 @@ package io.github.luan1412.Conta.Junto.Grupo.Model;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.github.luan1412.Conta.Junto.Usuario.Model.UsuarioModel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,5 +40,6 @@ public class GrupoModel {
         joinColumns = @JoinColumn(name = "grupo_id"),
         inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
+    @JsonIgnoreProperties("grupos")
     private Set<UsuarioModel> usuarios;
 }
