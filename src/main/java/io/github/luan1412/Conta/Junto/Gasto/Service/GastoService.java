@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.github.luan1412.Conta.Junto.Gasto.Repository.GastoRepository;
+import io.github.luan1412.Conta.Junto.Grupo.Model.GrupoModel;
+import io.github.luan1412.Conta.Junto.Grupo.Repository.GrupoRepository;
+import io.github.luan1412.Conta.Junto.Usuario.Model.UsuarioModel;
 import io.github.luan1412.Conta.Junto.Gasto.Model.GastoModel;
 @Service
 public class GastoService {
@@ -14,8 +17,28 @@ public class GastoService {
     @Autowired
     GastoRepository gastoRepository;
 
-    public GastoModel createGasto(GastoModel gasto){
-        return gastoRepository.save(gasto);
+    @Autowired
+    GrupoRepository grupoRepository;
+
+    public GastoModel createGasto(GastoModel gasto, UsuarioModel usuarioLogado){
+        if (gasto.getGrupo() == null || gasto.getGrupo().getId() == null) {
+            throw new RuntimeException("Grupo é obrigatório para criar um gasto.");
+        }
+        Long grupoId = gasto.getGrupo().getId();
+
+        Optional <GrupoModel> grupoOptional = this.grupoRepository.findById(grupoId);
+
+        if (grupoOptional.isEmpty()) {
+            throw new RuntimeException("Grupo com ID " + grupoId + " não encontrado.");
+        }
+
+        GrupoModel grupo = grupoOptional.get();
+        if (grupo.getUsuarios() == null || !grupo.getUsuarios().contains(usuarioLogado)) {
+            throw new RuntimeException("Permissão negada. O usuário não pertence a este grupo.");
+        }
+
+        gasto.setGrupo(grupo);
+        return this.gastoRepository.save(gasto);
     }
 
     public List<GastoModel> readGasto(){
@@ -50,5 +73,7 @@ public class GastoService {
             return false;
         }
     }
+
+
 
 }

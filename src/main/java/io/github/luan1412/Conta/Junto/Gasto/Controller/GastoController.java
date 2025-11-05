@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.luan1412.Conta.Junto.Gasto.Model.GastoModel;
 import io.github.luan1412.Conta.Junto.Gasto.Service.GastoService;
+import io.github.luan1412.Conta.Junto.Usuario.Model.UsuarioModel;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.security.core.Authentication;
 
 
 @RestController
@@ -27,9 +28,12 @@ public class GastoController {
     @Autowired
     GastoService gastoService;
 
+
     @PostMapping
-    public GastoModel createGasto(@RequestBody GastoModel gasto){
-        return this.gastoService.createGasto(gasto);
+    public GastoModel createGasto(@RequestBody GastoModel gasto, Authentication authentication){
+
+        UsuarioModel usuarioLogado = (UsuarioModel) authentication.getPrincipal();
+        return this.gastoService.createGasto(gasto, usuarioLogado);
     }
 
     @GetMapping
